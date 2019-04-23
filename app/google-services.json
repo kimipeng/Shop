@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "594269743714",
+    "firebase_url": "https://shop-be476.firebaseio.com",
+    "project_id": "shop-be476",
+    "storage_bucket": "shop-be476.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594269743714:android:ca0f995e9b1d9f41",
+        "android_client_info": {
+          "package_name": "com.kimi.shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594269743714-0p9bf3tah3d5fefj0o48vnutq52869g3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kimi.shop",
+            "certificate_hash": "99474e7b3882747e20652d8d8281757809150794"
+          }
+        },
+        {
+          "client_id": "594269743714-cemf9l20689jkna0l94d9e5r1fslnfpb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPJhpxXwcTUhJyQ6MYmHacIIJMDHz7DSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594269743714-cemf9l20689jkna0l94d9e5r1fslnfpb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
