@@ -4,12 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -18,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.row_function.view.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
     private val RC_SIGNUP: Int = 200
     private val RC_NICKNAME: Int = 210
+    val function = listOf<String>("Camera", "Invite friend", "Parking", "Download coupons", "News", "Maps")
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,9 +62,38 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Kimi", "onItemSelected: ${colors[position]}")
 
             }
-
         }
+
+        // RecycleView
+
+        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.setHasFixedSize(true)
+        recycler.adapter = FunctionAdapter()
+
+
     }
+
+    inner class FunctionAdapter() : RecyclerView.Adapter<FunctionHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FunctionHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.row_function, parent, false)
+            val holder = FunctionHolder(view)
+            return holder
+        }
+
+        override fun getItemCount(): Int {
+            return function.size
+        }
+
+        override fun onBindViewHolder(holder: FunctionHolder, position: Int) {
+            holder.nameText.text = function.get(position)
+        }
+
+    }
+
+    class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var nameText: TextView = view.name
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -70,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             .getReference("users")
             .child(auth.currentUser!!.uid)
             .child("nickname")
-            .addListenerForSingleValueEvent(object : ValueEventListener{
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
