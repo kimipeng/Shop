@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
     private fun functionClicked(holder: FunctionHolder, position: Int) {
         when (position) {
             1 -> startActivity(Intent(this, ContactActivity::class.java))
+            2 -> startActivity(Intent(this, ParkingActivity::class.java))
         }
     }
 
