@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private val RC_SIGNUP: Int = 200
     private val RC_NICKNAME: Int = 210
-    val function = listOf<String>("Camera", "Invite friend", "Parking", "Download coupons", "News", "Maps")
+    val function = listOf<String>("Camera", "Invite friend", "Parking", "Movies","Download coupons", "News", "Maps")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,6 +97,8 @@ class MainActivity : AppCompatActivity() {
         when (position) {
             1 -> startActivity(Intent(this, ContactActivity::class.java))
             2 -> startActivity(Intent(this, ParkingActivity::class.java))
+            3 -> startActivity(Intent(this, MovieActivity::class.java))
+
         }
     }
 
