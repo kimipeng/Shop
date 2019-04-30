@@ -18,22 +18,39 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.info
 import org.jetbrains.anko.uiThread
+import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
 import java.net.URL
 
 class MovieActivity : AppCompatActivity(), AnkoLogger {
 
     var movies: List<Movie>? = null
 
+    /**
+     * 搭配 http://myjson.com/zqa88
+     * Film.JSON https://gist.github.com/saniyusuf/406b843afdfb9c6a86e25753fe2761f4
+     */
+    val retrofit = Retrofit.Builder()
+        .baseUrl("https://api.myjson.com/bins/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie)
 
         doAsync {
-            val json = URL("https://api.myjson.com/bins/1bwqvg").readText()
-            movies = Gson().fromJson<List<Movie>>(json, object : TypeToken<List<Movie>>() {}.type)
-            movies?.forEach {
-                info("${it.Title}, ${it.imdbID}")
-            }
+//            val json = URL("https://api.myjson.com/bins/zqa88").readText()
+////            movies = Gson().fromJson<List<Movie>>(json, object : TypeToken<List<Movie>>() {}.type)
+////            movies?.forEach {
+////                info("${it.Title}, ${it.imdbID}")
+////            }
+
+
+            val movieService = retrofit.create(MovieService::class.java)
+            movies = movieService.listMovies().execute().body()
 
             uiThread {
                 recycler.layoutManager = LinearLayoutManager(it)
@@ -72,7 +89,7 @@ class MovieActivity : AppCompatActivity(), AnkoLogger {
             imdbText.text = movie.imdbRating
             directorText.text = movie.Director
             Glide.with(this@MovieActivity)
-                .load(movie.Poster)
+                .load(movie.Images.get(0))
                 .override(300)
                 .into(posterImage)
         }
@@ -106,3 +123,9 @@ data class Movie(
     val imdbVotes: String,
     val totalSeasons: String
 )
+
+interface MovieService {
+
+    @GET("zqa88")
+    fun listMovies(): Call<List<Movie>>
+}
