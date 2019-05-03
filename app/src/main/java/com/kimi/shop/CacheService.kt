@@ -1,24 +1,31 @@
 package com.kimi.shop
 
-import android.app.Service
+import android.app.IntentService
 import android.content.Intent
 import android.os.IBinder
+import com.bumptech.glide.Glide
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-class CacheService() : Service(), AnkoLogger {
+class CacheService() : IntentService("CacheService"), AnkoLogger {
 
-
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        info("onStartCommand")
-        return START_STICKY
+    companion object {
+        val ACTION_CACHE_DONE = "action_cache_done"
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        info("onCreate")
+
+    override fun onHandleIntent(intent: Intent?) {
+        info ("onHandleIntent")
+        val title = intent?.getStringExtra("TITLE")
+        val url = intent?.getStringExtra("URL")
+
+        info("Downloading...$url")
+        Glide.with(this)
+            .download(url)
+        sendBroadcast(Intent(ACTION_CACHE_DONE))
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -27,5 +34,14 @@ class CacheService() : Service(), AnkoLogger {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
+    }
+
+    //    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+//        info("onStartCommand")
+//        return START_STICKY
+//    }
+    override fun onCreate() {
+        super.onCreate()
+        info("onCreate")
     }
 }
