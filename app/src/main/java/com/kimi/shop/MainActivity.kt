@@ -30,8 +30,11 @@ class MainActivity : AppCompatActivity() {
 
     private val RC_SIGNUP: Int = 200
     private val RC_NICKNAME: Int = 210
-    val function = listOf<String>("Camera", "Invite friend", "Parking", "Movies","Download coupons", "News", "Maps")
+    private var cacheService: Intent? = null
 
+
+    val function =
+        listOf<String>("Camera", "Invite friend", "Parking", "Movies", "Bus", "Download coupons", "News", "Maps")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,8 +75,8 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
     inner class FunctionAdapter() : RecyclerView.Adapter<FunctionHolder>() {
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FunctionHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.row_function, parent, false)
             val holder = FunctionHolder(view)
@@ -98,14 +101,15 @@ class MainActivity : AppCompatActivity() {
             1 -> startActivity(Intent(this, ContactActivity::class.java))
             2 -> startActivity(Intent(this, ParkingActivity::class.java))
             3 -> startActivity(Intent(this, MovieActivity::class.java))
+            4 -> startActivity(Intent(this, BusActivity::class.java))
 
         }
     }
-
     class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
         var nameText: TextView = view.name
-    }
 
+
+    }
 
     override fun onResume() {
         super.onResume()
@@ -166,7 +170,17 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.action_cache -> {
+                cacheService = Intent(this, CacheService::class.java)
+                startService(cacheService)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        stopService(cacheService)
     }
 }
