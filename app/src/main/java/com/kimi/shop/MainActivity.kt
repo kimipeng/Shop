@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
 
     val function =
-        listOf<String>("Camera", "Invite friend", "Parking", "Movies", "Bus", "Download coupons", "News", "Maps")
+        listOf<String>("Camera", "Invite friend", "Parking", "Movies", "Bus", "News", "Download coupons", "Maps")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +110,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             2 -> startActivity(Intent(this, ParkingActivity::class.java))
             3 -> startActivity(Intent(this, MovieActivity::class.java))
             4 -> startActivity(Intent(this, BusActivity::class.java))
+            5 -> startActivity(Intent(this, NewsActivity::class.java))
 
         }
     }
